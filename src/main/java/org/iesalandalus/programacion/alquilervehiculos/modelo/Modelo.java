@@ -83,7 +83,6 @@ public class Modelo {
 	}
 
 	public void borrar(Cliente cliente) throws OperationNotSupportedException {
-		
 		for (Alquiler al : alquileres.get(cliente)) {
 			alquileres.borrar(al);
 		}
