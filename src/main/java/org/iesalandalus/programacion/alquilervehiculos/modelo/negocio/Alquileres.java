@@ -50,15 +50,9 @@ public class Alquileres {
 		if (alquiler == null) {
 			throw new NullPointerException("ERROR: No se puede insertar un alquiler nulo.");
 		}
-		if (buscar(alquiler) != null) {
-
-			if (alquiler.getFechaDevolucion() == null) {
-				throw new OperationNotSupportedException("ERROR: Ya existe un cliente con ese DNI.");
-			}
-		} else {
-			comprobarAlquiler(alquiler.getCliente(), alquiler.getTurismo(), alquiler.getFechaAlquiler());
-			coleccionAlquileres.add(alquiler);
-		}
+		comprobarAlquiler(alquiler.getCliente(), alquiler.getTurismo(), alquiler.getFechaAlquiler());
+		coleccionAlquileres.add(alquiler);
+		
 	}
 
 	private void comprobarAlquiler(Cliente cliente, Turismo turismo, LocalDate fechaAlquiler)
