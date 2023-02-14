@@ -9,7 +9,7 @@ import javax.naming.OperationNotSupportedException;
 
 public class Alquiler {
 	static DateTimeFormatter FORMATO_FECHA = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-	private static int PRECIO_DIA = 29;//// EL PROFESOR PONE QUE ES 20 Y EL TEST DICE 29
+	private static int PRECIO_DIA = 20;//// EL PROFESOR PONE QUE ES 20 Y EL TEST DICE 29
 	private LocalDate fechaAlquiler;
 	private LocalDate fechaDevolucion;
 	private Cliente cliente;
@@ -109,7 +109,7 @@ public class Alquiler {
 		} else {
 			dias = ChronoUnit.DAYS.between(getFechaAlquiler(), getFechaDevolucion());
 		}
-		return PRECIO_DIA * (int) dias;
+		return (PRECIO_DIA + (turismo.getCilindrada()/10)) * (int) dias;
 	}
 
 	@Override
