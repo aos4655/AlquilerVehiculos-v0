@@ -21,25 +21,25 @@ public enum Opcion {
 	
 	private String cadenaAMostrar;
 
-	private boolean esOrdinalValido(int ordinal) {
+	private static boolean esOrdinalValido(int ordinal) {
 		boolean comprobar = false;
 		if(ordinal < Opcion.values().length && ordinal >= 0) {
 			comprobar = true;
 		}
 		return comprobar;
 	}
-	public Opcion get(int ordinal) {
+	public static Opcion get(int ordinal) {
 		Opcion op = null;
 		if(esOrdinalValido(ordinal)) {
 			op = Opcion.values()[ordinal];
 		}
-		return op;
+		return null;
 	}
 	private Opcion(String cadenaAMostrar) {
 		this.cadenaAMostrar = cadenaAMostrar;
 	}
 	
 	public String toString() {
-		return cadenaAMostrar;
+		return String.format("% %s", ordinal(), cadenaAMostrar);
 	}
 }

@@ -2,6 +2,7 @@ package org.iesalandalus.programacion.alquilervehiculos.vista;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.naming.OperationNotSupportedException;
@@ -24,35 +25,115 @@ public class Vista {
 		}
 	}
 
-	public void comenzar() {
-		// menu con opciones
-		// pedir opcion por consola
-		// ejecutar mientras la opcion no sea salir
-		System.out.println("Menu de opciones");
-		for (int i = 0; i < Opcion.values().length; i++) {
-			System.out.println(i + "" + Opcion.values()[i]);
-		}
-		System.out.println("Elija una opcion");
-
+	public void comenzar() throws OperationNotSupportedException {
+		Consola.mostrarMenu();
+		ejecutar(Consola.elegirOpcion());
 	}
 
 	public void terminar() {
 		System.out.println("Adios!");
 	}
 
-	public void ejecutar(Opcion opcion) {
-		// Dada una opcion llamar a su metodo
+	public void ejecutar(Opcion opcion) throws OperationNotSupportedException {
+		while (opcion != Opcion.SALIR) {
+			switch (opcion) {
+			case INSERTAR_CLIENTE: {
+				insertarCliente();
+				break;
+			}
+			case INSERTAR_TURISMO: {
+				insertarTurismo();
+				break;
+			}
+			case INSERTAR_ALQUILER: {
+				insertarAlquiler();
+				break;
+			}
+			case BUSCAR_CLIENTE: {
+				buscarCliente();
+				break;
+			}
+			case BUSCAR_TURISMO: {
+				buscarTurismo();
+				break;
+			}
+			case BUSCAR_ALQUILER: {
+				buscarAlquiler();
+				break;
+			}
+			case MODIFICAR_CLIENTE: {
+				modificarCliente();
+				break;
+			}
+			case DEVOLVER_ALQUILER: {
+				devolverAlquiler();
+				break;
+			}
+			case BORRAR_CLIENTE: {
+				borrarCliente();
+				break;
+			}
+			case BORRAR_TURISMO: {
+				borrarTurismo();
+				break;
+			}
+			case BORRAR_ALQUILER: {
+				borrarAlquiler();
+				break;
+			}
+			case LISTAR_CLIENTES: {
+				listarClientes();
+				break;
+			}
+			case LISTAR_TURISMOS: {
+				listarTurismos();
+				break;
+			}
+
+			case LISTAR_ALQUILERES: {
+				listarAlquileres();
+				break;
+			}
+			case LISTAR_ALQUILERES_CLIENTE: {
+				listarAlquileresCliente(Consola.leerCliente());
+				break;
+			}
+			case LISTAR_ALQUILERES_TURISMO: {
+				listarAlquileresTurismo(Consola.leerTurismo());
+				break;
+			}
+
+			}
+			comenzar();
+
+		}
+
+		controlador.terminar();
+
 	}
 
-	public void insertar(Cliente cliente) throws OperationNotSupportedException {
-		controlador.insertar(cliente);
+	public void insertarCliente() throws OperationNotSupportedException {
+		Consola.mostrarCabecera("Insertar Cliente");
+		try {
+			controlador.insertar(Consola.leerCliente());
+			System.out.println("Cliente insertado correctamente");
+		} catch (IllegalArgumentException | NullPointerException | OperationNotSupportedException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
-	public void insertar(Turismo turismo) throws OperationNotSupportedException {
-		controlador.insertar(turismo);
+	public void insertarTurismo() throws OperationNotSupportedException {
+		try {
+			Consola.mostrarCabecera("Insertar Turismo");
+			controlador.insertar(Consola.leerTurismo());
+			System.out.println("Turismo insertado correctamente");
+		} catch (IllegalArgumentException | NullPointerException | OperationNotSupportedException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
-	public void insertar(Alquiler alquiler) throws OperationNotSupportedException {
+	public void insertarAlquiler() throws OperationNotSupportedException {
+		Alquiler alquiler = Consola.leerAlquiler();
 		if (alquiler == null) {
 			throw new NullPointerException("ERROR: No se puede realizar un alquiler nulo.");
 		}
@@ -64,61 +145,136 @@ public class Vista {
 		if (t == null) {
 			throw new OperationNotSupportedException("ERROR: No existe el turismo del alquiler.");
 		}
-		controlador.insertar(new Alquiler(cli, t, alquiler.getFechaAlquiler()));
+		try {
+			Consola.mostrarCabecera("Insertar alquiler");
+			controlador.insertar(new Alquiler(cli, t, alquiler.getFechaAlquiler()));
+			Consola.mostrarCabecera("Alquiler insertado correctamente");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 
 	}
 
-	public Cliente buscar(Cliente cliente) {
-		return controlador.buscar(cliente);
+	public void buscarCliente() {
+		try {
+			Consola.mostrarCabecera("Buscar cliente");
+			controlador.buscar(Consola.leerCliente());
+		} catch (IllegalArgumentException | NullPointerException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
-	public Turismo buscar(Turismo turismo) {
-		return controlador.buscar(turismo);
+	public void buscarTurismo() {
+		try {
+			Consola.mostrarCabecera("Buscar turismo");
+			controlador.buscar(Consola.leerTurismo());
+		} catch (IllegalArgumentException | NullPointerException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
-	public Alquiler buscar(Alquiler alquiler) {
-		return controlador.buscar(alquiler);
+	public void buscarAlquiler() {
+		try {
+			Consola.mostrarCabecera("Buscar alquiler");
+			controlador.buscar(Consola.leerAlquiler());
+		} catch (IllegalArgumentException | NullPointerException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
-	public void modificar(Cliente cliente, String nombre, String telefono) throws OperationNotSupportedException {
-		controlador.modificar(cliente, nombre, telefono);
+	public void modificarCliente() throws OperationNotSupportedException {
+		try {
+			Consola.mostrarCabecera("Modificar cliente");
+			controlador.modificar(Consola.leerCliente(), Consola.leerNombre(), Consola.leerTelefono());
+		} catch (IllegalArgumentException | NullPointerException | OperationNotSupportedException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
-	public void devolver(Alquiler alquiler, LocalDate fechaDevolucion) throws OperationNotSupportedException {
-		controlador.devolver(alquiler, fechaDevolucion);
+	public void devolverAlquiler() throws OperationNotSupportedException {
+		try {
+			Consola.mostrarCabecera("Devolver alquiler");
+			controlador.devolver(Consola.leerAlquiler(), Consola.leerFechaDevolucion());
+		} catch (IllegalArgumentException | NullPointerException | OperationNotSupportedException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
-	public void borrar(Cliente cliente) throws OperationNotSupportedException {
-		controlador.borrar(cliente);
-		;
+	public void borrarCliente() throws OperationNotSupportedException {
+		try {
+			Consola.mostrarCabecera("Borrar cliente");
+			controlador.borrar(Consola.leerCliente());
+			System.out.println("Cliente borrado correctamente");
+		} catch (IllegalArgumentException | NullPointerException | OperationNotSupportedException e) {
+			System.out.println(e.getMessage());
+		}
+
 	}
 
-	public void borrar(Turismo turismo) throws OperationNotSupportedException {
-		controlador.borrar(turismo);
+	public void borrarTurismo() throws OperationNotSupportedException {
+		try {
+			Consola.mostrarCabecera("Borrar turismo");
+			controlador.borrar(Consola.leerTurismo());
+			System.out.println("Turismo borrado correctamente");
+		} catch (IllegalArgumentException | NullPointerException | OperationNotSupportedException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
-	public void borrar(Alquiler alquiler) throws OperationNotSupportedException {
-		controlador.borrar(alquiler);
+	public void borrarAlquiler() throws OperationNotSupportedException {
+		try {
+			Consola.mostrarCabecera("Borrar alquiler");
+			controlador.borrar(Consola.leerAlquiler());
+			System.out.println("Alquiler borrado correctamente");
+		} catch (IllegalArgumentException | NullPointerException | OperationNotSupportedException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
 	public void listarClientes() {
-		controlador.getClientes();
+		try {
+			Consola.mostrarCabecera("Listado Clientes");
+			System.out.println(controlador.getClientes());
+		} catch (IllegalArgumentException | NullPointerException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
 	public void listarTurismos() {
-		controlador.getTurismos();
+		try {
+			Consola.mostrarCabecera("Listado Turismos");
+			System.out.println(controlador.getTurismos());
+		} catch (IllegalArgumentException | NullPointerException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
 	public void listarAlquileres() {
-		controlador.getAlquileres();
+		try {
+			Consola.mostrarCabecera("Listado Alquileres");
+			System.out.println(controlador.getAlquileres());
+		} catch (IllegalArgumentException | NullPointerException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
 	public void listarAlquileresCliente(Cliente cliente) {
-		controlador.getAlquileres(cliente);
+		try {
+			Consola.mostrarCabecera("Listado Alquileres del cliente con dni " + cliente.getDni());
+			System.out.println(controlador.getAlquileres(cliente));
+		} catch (IllegalArgumentException | NullPointerException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
 	public void listarAlquileresTurismo(Turismo turismo) {
-		controlador.getAlquileres(turismo);
+		
+		try {
+			Consola.mostrarCabecera("Listado Alquileres del turismo con matricula " + turismo.getMatricula());
+			System.out.println(controlador.getAlquileres(turismo));
+		} catch (IllegalArgumentException | NullPointerException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
 }

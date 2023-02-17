@@ -26,6 +26,7 @@ public class Cliente {
 			throw new NullPointerException("ERROR: No es posible copiar un cliente nulo.");
 		}
 		else {
+			
 			setNombre(cliente.nombre);
 			setDni(cliente.dni);
 			setTelefono(cliente.telefono);

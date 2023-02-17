@@ -30,7 +30,9 @@ public class Clientes {
 		if (buscar(cliente) != null) {
 			throw new OperationNotSupportedException("ERROR: Ya existe un cliente con ese DNI.");
 		} else {
+
 			coleccionClientes.add(cliente);
+
 		}
 	}
 
@@ -49,7 +51,8 @@ public class Clientes {
 		if (cliente == null) {
 			throw new NullPointerException("ERROR: No se puede buscar un cliente nulo.");
 		}
-		return coleccionClientes.indexOf(cliente) != -1 ? coleccionClientes.get(coleccionClientes.indexOf(cliente)) : null;
+		return coleccionClientes.indexOf(cliente) != -1 ? coleccionClientes.get(coleccionClientes.indexOf(cliente))
+				: null;
 	}
 
 	public void modificar(Cliente cliente, String nombre, String telefono) throws OperationNotSupportedException {
@@ -58,14 +61,13 @@ public class Clientes {
 		}
 		if (buscar(cliente) == null) {
 			throw new OperationNotSupportedException("ERROR: No existe ningún cliente con ese DNI.");
-		}
-		else{
-			if (nombre != null ) {
+		} else {
+			if (nombre != null) {
 				if (!nombre.isBlank()) {
 					buscar(cliente).setNombre(nombre);
 				}
 			}
-			if (telefono != null ) {
+			if (telefono != null) {
 				if (!telefono.isBlank()) {
 					buscar(cliente).setTelefono(telefono);
 				}

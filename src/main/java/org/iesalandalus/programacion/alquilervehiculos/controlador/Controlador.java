@@ -18,13 +18,16 @@ import org.iesalandalus.programacion.alquilervehiculos.vista.Vista;
 public class Controlador {
 	private Modelo modelo;
 	private Vista vista;
+
 	public Controlador(Modelo modelo, Vista vista) {
 		this.modelo = modelo;
 		this.vista = vista;
+		vista.setControlador(this);
 	}
 
-	public void comenzar() {
+	public void comenzar() throws OperationNotSupportedException {
 		modelo.comenzar();
+		vista.comenzar();
 	}
 
 	public void terminar() {
@@ -44,15 +47,15 @@ public class Controlador {
 	}
 
 	public Cliente buscar(Cliente cliente) {
-		modelo.buscar(cliente);
+		return modelo.buscar(cliente);
 	}
 
 	public Turismo buscar(Turismo turismo) {
-		modelo.buscar(turismo);
+		return modelo.buscar(turismo);
 	}
 
 	public Alquiler buscar(Alquiler alquiler) {
-		modelo.buscar(alquiler);
+		return modelo.buscar(alquiler);
 	}
 
 	public void modificar(Cliente cliente, String nombre, String telefono) throws OperationNotSupportedException {
@@ -76,23 +79,23 @@ public class Controlador {
 	}
 
 	public List<Cliente> getClientes() {
-		modelo.getClientes();
+		return modelo.getClientes();
 	}
 
 	public List<Turismo> getTurismos() {
-		modelo.getTurismos();
+		return modelo.getTurismos();
 	}
 
 	public List<Alquiler> getAlquileres() {
-		modelo.getAlquileres();
+		return modelo.getAlquileres();
 	}
 
 	public List<Alquiler> getAlquileres(Cliente cliente) {
-		modelo.getAlquileres(cliente);
+		return modelo.getAlquileres(cliente);
 	}
 
 	public List<Alquiler> getAlquileres(Turismo turismo) {
-		modelo.getAlquileres(turismo);
+		return modelo.getAlquileres(turismo);
 	}
 
 }

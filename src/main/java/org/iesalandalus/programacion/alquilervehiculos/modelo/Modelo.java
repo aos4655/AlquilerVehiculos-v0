@@ -28,7 +28,6 @@ public class Modelo {
 		clientes = new Clientes();
 		turismos = new Turismos();
 		alquileres = new Alquileres();
-
 	}
 
 	public void terminar() {
@@ -36,7 +35,9 @@ public class Modelo {
 	}
 
 	public void insertar(Cliente cliente) throws OperationNotSupportedException {
+		
 			clientes.insertar(cliente);
+			
 	}
 
 	public void insertar(Turismo turismo) throws OperationNotSupportedException {
@@ -56,7 +57,6 @@ public class Modelo {
 			throw new OperationNotSupportedException("ERROR: No existe el turismo del alquiler.");
 		}
 		alquileres.insertar(new Alquiler(cli,t,alquiler.getFechaAlquiler()));
-		
 	}
 
 	public Cliente buscar(Cliente cliente) {

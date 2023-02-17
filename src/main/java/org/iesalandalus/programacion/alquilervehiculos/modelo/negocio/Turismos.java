@@ -45,11 +45,11 @@ public class Turismos {
 		}
 	}
 
-	public Turismo buscar(Turismo cliente) {
-		if (cliente == null) {
+	public Turismo buscar(Turismo turismo) {
+		if (turismo == null) {
 			throw new NullPointerException("ERROR: No se puede buscar un turismo nulo.");
 		}
-		return coleccionTurismos.indexOf(cliente) != -1 ? coleccionTurismos.get(coleccionTurismos.indexOf(cliente)) : null;
+		return coleccionTurismos.indexOf(turismo) != -1 ? coleccionTurismos.get(coleccionTurismos.indexOf(turismo)) : null;
 	}
 
 

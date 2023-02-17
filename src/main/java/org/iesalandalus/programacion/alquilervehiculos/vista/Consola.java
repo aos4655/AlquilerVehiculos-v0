@@ -1,17 +1,19 @@
 package org.iesalandalus.programacion.alquilervehiculos.vista;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.Locale;
 
 import org.iesalandalus.programacion.alquilervehiculos.modelo.dominio.Alquiler;
 import org.iesalandalus.programacion.alquilervehiculos.modelo.dominio.Cliente;
 import org.iesalandalus.programacion.alquilervehiculos.modelo.dominio.Turismo;
+import org.iesalandalus.programacion.alquilervehiculos.modelo.negocio.Turismos;
 import org.iesalandalus.programacion.utilidades.Entrada;
 
 public class Consola {
-	private static final String PATRON_FECHA = "";
-	private static final String FORMATO_FECHA = "";
+	private static final String PATRON_FECHA = "dd/MM/yyyy";
+	private static final DateTimeFormatter FORMATO_FECHA = DateTimeFormatter.ofPattern(PATRON_FECHA);
 
 	private Consola() {
 
@@ -28,8 +30,11 @@ public class Consola {
 
 	public static void mostrarMenu() {
 		mostrarCabecera("Gestion Alquileres");
-		// mostrar opciones
-		// llamar en cada opcion a su metodo
+		System.out.println("Menu de opciones");
+		for (int i = 0; i < Opcion.values().length; i++) {
+			System.out.println(i + " - " + Opcion.values()[i]);
+		}
+		
 	}
 
 	private static String leerCadena(String mensaje) {
@@ -43,52 +48,55 @@ public class Consola {
 	}
 
 	private static LocalDate leerFecha(String mensaje) {
-		System.out.println(mensaje);
-		String cadena = Entrada.cadena();
-		while (cadena.matches(FORMATO_FECHA)) {
-			cadena = Entrada.cadena();			
-		}
-		//LocalDate l = cadena.formatted(PATRON_FECHA);
-		return null;
+		LocalDate fechaLeida = LocalDate.parse(leerCadena(mensaje + PATRON_FECHA), FORMATO_FECHA);
+		return fechaLeida;
 	}
 
-	public static Opcion elegirOpcion(){
-	
-		Opcion op = Opcion.get(Entrada.entero());
+	public static Opcion elegirOpcion() {
+		int numOpcion = leerEntero("Elije una opcion: ");
+		Opcion op = Opcion.get(numOpcion);
 		while (op == null) {
-			op.get(Entrada.entero());
+			numOpcion = leerEntero("Elije una opcion: ");
+			op = Opcion.get(numOpcion);
 		}
+		return op;
 	}
 
 	public static Cliente leerCliente() {
-		return null;
+		return new Cliente(leerNombre(), leerCadena("Introduce un dni: "), leerTelefono());
 	}
 
 	public static Cliente leerClienteDni() {
-		return null;
+		System.out.print("Introduce dni del cliente: ");
+		String leerDni = Entrada.cadena();
+		return Cliente.getClienteConDni(leerDni);
 	}
 
 	public static String leerNombre() {
-		return null;
+		return leerCadena("Introduce nombre del cliente: ");
 	}
 
 	public static String leerTelefono() {
-		return null;
+		return leerCadena("Introduce telefono del cliente: ");
 	}
 
 	public static Turismo leerTurismo() {
-		return null;
+		System.out.print("Introduce turismo: ");
+		return new Turismo(leerCadena("Introduce la marca"), leerCadena("Introduce el modelo"), leerEntero("Introduce la cilindrada"), leerCadena("Introduce la matricula"));
 	}
 
 	public static Turismo leerTurismoMatricula() {
-		return null;
+		System.out.print("Introduce la matricula del turismo: ");
+		String leerMatriculaTurismo = Entrada.cadena();
+		return Turismo.getTurismoConMatricula(leerMatriculaTurismo);
 	}
 
 	public static Alquiler leerAlquiler() {
-		return null;
+		System.out.print("Introduce un alquiler: ");
+		return new Alquiler(leerCliente(), leerTurismo(), leerFecha("Introduce una fecha de Alquiler"));
 	}
 
 	public static LocalDate leerFechaDevolucion() {
-		return null;
+		return leerFecha("Introduce la fecha de devolucion");
 	}
 }
