@@ -37,72 +37,71 @@ public class Vista {
 	public void ejecutar(Opcion opcion) throws OperationNotSupportedException {
 		while (opcion != Opcion.SALIR) {
 			switch (opcion) {
-			case INSERTAR_CLIENTE: {
-				insertarCliente();
-				break;
-			}
-			case INSERTAR_TURISMO: {
-				insertarTurismo();
-				break;
-			}
-			case INSERTAR_ALQUILER: {
-				insertarAlquiler();
-				break;
-			}
-			case BUSCAR_CLIENTE: {
-				buscarCliente();
-				break;
-			}
-			case BUSCAR_TURISMO: {
-				buscarTurismo();
-				break;
-			}
-			case BUSCAR_ALQUILER: {
-				buscarAlquiler();
-				break;
-			}
-			case MODIFICAR_CLIENTE: {
-				modificarCliente();
-				break;
-			}
-			case DEVOLVER_ALQUILER: {
-				devolverAlquiler();
-				break;
-			}
-			case BORRAR_CLIENTE: {
-				borrarCliente();
-				break;
-			}
-			case BORRAR_TURISMO: {
-				borrarTurismo();
-				break;
-			}
-			case BORRAR_ALQUILER: {
-				borrarAlquiler();
-				break;
-			}
-			case LISTAR_CLIENTES: {
-				listarClientes();
-				break;
-			}
-			case LISTAR_TURISMOS: {
-				listarTurismos();
-				break;
-			}
-
-			case LISTAR_ALQUILERES: {
-				listarAlquileres();
-				break;
-			}
-			case LISTAR_ALQUILERES_CLIENTE: {
-				listarAlquileresCliente(Consola.leerCliente());
-				break;
-			}
-			case LISTAR_ALQUILERES_TURISMO: {
-				listarAlquileresTurismo(Consola.leerTurismo());
-				break;
-			}
-
+				case INSERTAR_CLIENTE: {
+					insertarCliente();
+					break;
+				}
+				case INSERTAR_TURISMO: {
+					insertarTurismo();
+					break;
+				}
+				case INSERTAR_ALQUILER: {
+					insertarAlquiler();
+					break;
+				}
+				case BUSCAR_CLIENTE: {
+					buscarCliente();
+					break;
+				}
+				case BUSCAR_TURISMO: {
+					buscarTurismo();
+					break;
+				}
+				case BUSCAR_ALQUILER: {
+					buscarAlquiler();
+					break;
+				}
+				case MODIFICAR_CLIENTE: {
+					modificarCliente();
+					break;
+				}
+				case DEVOLVER_ALQUILER: {
+					devolverAlquiler();
+					break;
+				}
+				case BORRAR_CLIENTE: {
+					borrarCliente();
+					break;
+				}
+				case BORRAR_TURISMO: {
+					borrarTurismo();
+					break;
+				}
+				case BORRAR_ALQUILER: {
+					borrarAlquiler();
+					break;
+				}
+				case LISTAR_CLIENTES: {
+					listarClientes();
+					break;
+				}
+				case LISTAR_TURISMOS: {
+					listarTurismos();
+					break;
+				}
+	
+				case LISTAR_ALQUILERES: {
+					listarAlquileres();
+					break;
+				}
+				case LISTAR_ALQUILERES_CLIENTE: {
+					listarAlquileresCliente();
+					break;
+				}
+				case LISTAR_ALQUILERES_TURISMO: {
+					listarAlquileresTurismo();
+					break;
+				}
 			}
 			comenzar();
 
@@ -133,22 +132,23 @@ public class Vista {
 	}
 
 	public void insertarAlquiler() throws OperationNotSupportedException {
-		Alquiler alquiler = Consola.leerAlquiler();
-		if (alquiler == null) {
-			throw new NullPointerException("ERROR: No se puede realizar un alquiler nulo.");
-		}
-		Cliente cli = controlador.buscar(alquiler.getCliente());
-		if (cli == null) {
-			throw new OperationNotSupportedException("ERROR: No existe el cliente del alquiler.");
-		}
-		Turismo t = controlador.buscar(alquiler.getTurismo());
-		if (t == null) {
-			throw new OperationNotSupportedException("ERROR: No existe el turismo del alquiler.");
-		}
 		try {
+			Alquiler alquiler = Consola.leerAlquiler();
+			if (alquiler == null) {
+				throw new NullPointerException("ERROR: No se puede realizar un alquiler nulo.");
+			}
+			Cliente cli = controlador.buscar(alquiler.getCliente());
+			if (cli == null) {
+				throw new OperationNotSupportedException("ERROR: No existe el cliente del alquiler.");
+			}
+			Turismo t = controlador.buscar(alquiler.getTurismo());
+			if (t == null) {
+				throw new OperationNotSupportedException("ERROR: No existe el turismo del alquiler.");
+			}
+		
 			Consola.mostrarCabecera("Insertar alquiler");
 			controlador.insertar(new Alquiler(cli, t, alquiler.getFechaAlquiler()));
-			Consola.mostrarCabecera("Alquiler insertado correctamente");
+			System.out.println("Alquiler insertado correctamente");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -158,7 +158,7 @@ public class Vista {
 	public void buscarCliente() {
 		try {
 			Consola.mostrarCabecera("Buscar cliente");
-			controlador.buscar(Consola.leerCliente());
+			System.out.println(controlador.buscar(Consola.leerClienteDni()));
 		} catch (IllegalArgumentException | NullPointerException e) {
 			System.out.println(e.getMessage());
 		}
@@ -167,7 +167,7 @@ public class Vista {
 	public void buscarTurismo() {
 		try {
 			Consola.mostrarCabecera("Buscar turismo");
-			controlador.buscar(Consola.leerTurismo());
+			System.out.println(controlador.buscar(Consola.leerTurismoMatricula()));
 		} catch (IllegalArgumentException | NullPointerException e) {
 			System.out.println(e.getMessage());
 		}
@@ -176,7 +176,11 @@ public class Vista {
 	public void buscarAlquiler() {
 		try {
 			Consola.mostrarCabecera("Buscar alquiler");
-			controlador.buscar(Consola.leerAlquiler());
+			
+			Alquiler alquiler = Consola.leerAlquiler();
+			System.out.println(alquiler);
+			
+			System.out.println(controlador.buscar(alquiler));
 		} catch (IllegalArgumentException | NullPointerException e) {
 			System.out.println(e.getMessage());
 		}
@@ -185,7 +189,8 @@ public class Vista {
 	public void modificarCliente() throws OperationNotSupportedException {
 		try {
 			Consola.mostrarCabecera("Modificar cliente");
-			controlador.modificar(Consola.leerCliente(), Consola.leerNombre(), Consola.leerTelefono());
+			controlador.modificar(Consola.leerClienteDni(), Consola.leerNombre(), Consola.leerTelefono());
+			System.out.println("Cliente modificado correctamente");
 		} catch (IllegalArgumentException | NullPointerException | OperationNotSupportedException e) {
 			System.out.println(e.getMessage());
 		}
@@ -203,7 +208,7 @@ public class Vista {
 	public void borrarCliente() throws OperationNotSupportedException {
 		try {
 			Consola.mostrarCabecera("Borrar cliente");
-			controlador.borrar(Consola.leerCliente());
+			controlador.borrar(Consola.leerClienteDni());
 			System.out.println("Cliente borrado correctamente");
 		} catch (IllegalArgumentException | NullPointerException | OperationNotSupportedException e) {
 			System.out.println(e.getMessage());
@@ -214,7 +219,7 @@ public class Vista {
 	public void borrarTurismo() throws OperationNotSupportedException {
 		try {
 			Consola.mostrarCabecera("Borrar turismo");
-			controlador.borrar(Consola.leerTurismo());
+			controlador.borrar(Consola.leerTurismoMatricula());
 			System.out.println("Turismo borrado correctamente");
 		} catch (IllegalArgumentException | NullPointerException | OperationNotSupportedException e) {
 			System.out.println(e.getMessage());
@@ -258,8 +263,9 @@ public class Vista {
 		}
 	}
 
-	public void listarAlquileresCliente(Cliente cliente) {
+	public void listarAlquileresCliente() {
 		try {
+			Cliente cliente = Consola.leerClienteDni();
 			Consola.mostrarCabecera("Listado Alquileres del cliente con dni " + cliente.getDni());
 			System.out.println(controlador.getAlquileres(cliente));
 		} catch (IllegalArgumentException | NullPointerException e) {
@@ -267,9 +273,9 @@ public class Vista {
 		}
 	}
 
-	public void listarAlquileresTurismo(Turismo turismo) {
-		
+	public void listarAlquileresTurismo() {
 		try {
+			Turismo turismo = Consola.leerTurismoMatricula();
 			Consola.mostrarCabecera("Listado Alquileres del turismo con matricula " + turismo.getMatricula());
 			System.out.println(controlador.getAlquileres(turismo));
 		} catch (IllegalArgumentException | NullPointerException e) {

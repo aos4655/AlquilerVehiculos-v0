@@ -33,13 +33,13 @@ public enum Opcion {
 		if(esOrdinalValido(ordinal)) {
 			op = Opcion.values()[ordinal];
 		}
-		return null;
+		return op;
 	}
 	private Opcion(String cadenaAMostrar) {
 		this.cadenaAMostrar = cadenaAMostrar;
 	}
 	
 	public String toString() {
-		return String.format("% %s", ordinal(), cadenaAMostrar);
+		return String.format("%d - %s", ordinal(), cadenaAMostrar);
 	}
 }

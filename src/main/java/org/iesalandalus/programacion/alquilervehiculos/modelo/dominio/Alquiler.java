@@ -38,15 +38,13 @@ public class Alquiler {
 	public Alquiler(Alquiler alquiler) {
 		if (alquiler == null) {
 			throw new NullPointerException("ERROR: No es posible copiar un alquiler nulo.");
-		} else {
+		}
 			setCliente(new Cliente(alquiler.cliente.getNombre(), alquiler.cliente.getDni(),
 					alquiler.cliente.getTelefono()));
 			setFechaAlquiler(alquiler.fechaAlquiler);
 			setTurismo(new Turismo(alquiler.turismo.getMarca(), alquiler.turismo.getModelo(),
 					alquiler.turismo.getCilindrada(), alquiler.turismo.getMatricula()));
-			setFechaDevolucion(alquiler.getFechaDevolucion());
-		}
-
+			this.fechaDevolucion = alquiler.getFechaDevolucion();
 	}
 
 	public LocalDate getFechaDevolucion() {
@@ -76,8 +74,6 @@ public class Alquiler {
 			throw new NullPointerException("ERROR: El cliente no puede ser nulo.");
 		}
 		this.cliente = cliente;
-		// this.cliente = new Cliente(cliente.getNombre(), cliente.getDni(),
-		// cliente.getTelefono());
 	}
 
 	public Turismo getTurismo() {
@@ -89,8 +85,6 @@ public class Alquiler {
 			throw new NullPointerException("ERROR: El turismo no puede ser nulo.");
 		}
 		this.turismo = turismo;
-		// this.turismo = new Turismo(turismo.getMarca(),
-		// turismo.getModelo(),turismo.getCilindrada(),turismo.getMatricula());
 	}
 
 	public void devolver(LocalDate fechaDevolucion) throws OperationNotSupportedException {

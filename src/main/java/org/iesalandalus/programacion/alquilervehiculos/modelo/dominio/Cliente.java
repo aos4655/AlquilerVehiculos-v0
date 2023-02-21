@@ -106,7 +106,6 @@ public class Cliente {
 		}
 		if(!dni.matches(ER_DNI)) {
 			throw new IllegalArgumentException("ERROR: El DNI no tiene un formato válido.");
-			//cliente = new Cliente(getNombre(), dni, telefono);
 		}
 		else {
 			if(!comprobarLetraDni(dni)) {

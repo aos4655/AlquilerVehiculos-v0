@@ -20,7 +20,7 @@ public class Consola {
 	}
 
 	public static void mostrarCabecera(String mensaje) {
-		System.out.println(mensaje);
+		System.out.println("\n"+mensaje);
 		String cadena = "";
 		for (int i = 0; i < mensaje.length(); i++) {
 			cadena += "-";
@@ -32,23 +32,23 @@ public class Consola {
 		mostrarCabecera("Gestion Alquileres");
 		System.out.println("Menu de opciones");
 		for (int i = 0; i < Opcion.values().length; i++) {
-			System.out.println(i + " - " + Opcion.values()[i]);
+			System.out.println(Opcion.values()[i]);
 		}
 		
 	}
 
 	private static String leerCadena(String mensaje) {
-		System.out.println(mensaje);
+		System.out.print(mensaje);
 		return Entrada.cadena();
 	}
 
 	private static Integer leerEntero(String mensaje) {
-		System.out.println(mensaje);
+		System.out.print(mensaje);
 		return Entrada.entero();
 	}
 
 	private static LocalDate leerFecha(String mensaje) {
-		LocalDate fechaLeida = LocalDate.parse(leerCadena(mensaje + PATRON_FECHA), FORMATO_FECHA);
+		LocalDate fechaLeida = LocalDate.parse(leerCadena(mensaje + " (" + PATRON_FECHA +") "), FORMATO_FECHA);
 		return fechaLeida;
 	}
 
@@ -67,9 +67,7 @@ public class Consola {
 	}
 
 	public static Cliente leerClienteDni() {
-		System.out.print("Introduce dni del cliente: ");
-		String leerDni = Entrada.cadena();
-		return Cliente.getClienteConDni(leerDni);
+		return Cliente.getClienteConDni(leerCadena("Introduce dni del cliente: "));
 	}
 
 	public static String leerNombre() {
@@ -81,22 +79,18 @@ public class Consola {
 	}
 
 	public static Turismo leerTurismo() {
-		System.out.print("Introduce turismo: ");
-		return new Turismo(leerCadena("Introduce la marca"), leerCadena("Introduce el modelo"), leerEntero("Introduce la cilindrada"), leerCadena("Introduce la matricula"));
+		return new Turismo(leerCadena("Introduce la marca: "), leerCadena("Introduce el modelo: "), leerEntero("Introduce la cilindrada: "), leerCadena("Introduce la matricula :"));
 	}
 
 	public static Turismo leerTurismoMatricula() {
-		System.out.print("Introduce la matricula del turismo: ");
-		String leerMatriculaTurismo = Entrada.cadena();
-		return Turismo.getTurismoConMatricula(leerMatriculaTurismo);
+		return Turismo.getTurismoConMatricula(leerCadena("Introduce la matricula del turismo: "));
 	}
 
 	public static Alquiler leerAlquiler() {
-		System.out.print("Introduce un alquiler: ");
-		return new Alquiler(leerCliente(), leerTurismo(), leerFecha("Introduce una fecha de Alquiler"));
+		return new Alquiler(leerClienteDni(), leerTurismoMatricula(), leerFecha("Introduce una fecha de Alquiler"));
 	}
 
 	public static LocalDate leerFechaDevolucion() {
-		return leerFecha("Introduce la fecha de devolucion");
+		return leerFecha("Introduce la fecha de devolucion: ");
 	}
 }
